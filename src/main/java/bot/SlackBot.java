@@ -5,6 +5,7 @@ import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.events.SlackMessagePosted;
 import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 import com.ullink.slack.simpleslackapi.listeners.SlackMessagePostedListener;
+import configuration.SlackBotConfiguration;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,18 +16,18 @@ import java.util.List;
  */
 public class SlackBot implements SlackMessagePostedListener {
 
+    private SlackBotConfiguration configuration;
+
     private List<SlackCommand> commands;
 
-    private final String token;
-
-    public SlackBot(String token, List<SlackCommand> commands) {
-        this.token = token;
+    public SlackBot(SlackBotConfiguration configuration, List<SlackCommand> commands) {
         this.commands = commands;
+        this.configuration = configuration;
     }
 
     public void connect() {
         try {
-            SlackSession session = SlackSessionFactory.createWebSocketSlackSession(token);
+            SlackSession session = SlackSessionFactory.createWebSocketSlackSession(configuration.getToken());
             session.connect();
             session.addMessagePostedListener(this);
         } catch (IOException e) {
@@ -46,16 +47,15 @@ public class SlackBot implements SlackMessagePostedListener {
             return new Builder();
         }
 
-        private String token;
+        private SlackBotConfiguration configuration;
         private List<SlackCommand> commands;
 
         public Builder() {
-            this.token = "";
             this.commands = new ArrayList<>();
         }
 
-        public Builder token(String token) {
-            this.token = token;
+        public Builder configure(SlackBotConfiguration configuration) {
+            this.configuration = configuration;
             return this;
         }
 
@@ -65,7 +65,7 @@ public class SlackBot implements SlackMessagePostedListener {
         }
 
         public SlackBot build() {
-            return new SlackBot(token, commands);
+            return new SlackBot(configuration, commands);
         }
     }
 }
