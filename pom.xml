@@ -17,11 +17,20 @@
     </repositories>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.timgroup</groupId>
+            <artifactId>java-statsd-client</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.25</version>
         </dependency>
+
+
         <dependency>
             <groupId>com.github.Ullink</groupId>
             <artifactId>simple-slack-api</artifactId>
@@ -33,6 +42,8 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+
     </dependencies>
 
     <build>

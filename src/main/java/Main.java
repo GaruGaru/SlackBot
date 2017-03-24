@@ -1,5 +1,6 @@
 import bot.SlackBot;
 import bot.commands.EchoCommand;
+import bot.commands.statsd.JenkinsCounter;
 import configuration.SlackBotProperties;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class Main {
         SlackBot slackBot = SlackBot.Builder.create()
                 .configure(SlackBotProperties.create())
                 .command(new EchoCommand())
+                .command(new JenkinsCounter())
                 .build();
 
         slackBot.connect();
